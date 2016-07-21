@@ -22,6 +22,13 @@ public class Player : MonoBehaviour {
 		rb2d.AddForce (movement * speed);
 
 	}
+
+	void OnTriggerEnter2D(Collider2D other){
+		if(other.gameObject.CompareTag("Pickup")){
+			other.gameObject.SetActive(false);
+
+		}
+	}
 	
 	// Update is called once per frame
 	void Update () {
