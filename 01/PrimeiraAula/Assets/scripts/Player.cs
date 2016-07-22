@@ -1,7 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
+//using UnityEngine.SceneManagement;
+
+
 
 public class Player : MonoBehaviour {
+
+	private int total = 4;
+	public Text countText;
+	private int counter;
+
+	public GameObject MenuLevel;
 
 	public float speed;
 	private Rigidbody2D rb2d;
@@ -10,8 +20,11 @@ public class Player : MonoBehaviour {
 	void Start () {
 
 		rb2d = GetComponent<Rigidbody2D> ();
-
+		counter = 0;
+		UpdatePickup ();
+		MenuLevel.gameObject.SetActive(false);
 	}
+
 	// Chamado em intevalos fixos.
 	//Uso: Atualização física
 	void FixedUpdate(){
@@ -24,9 +37,20 @@ public class Player : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D other){
-		if(other.gameObject.CompareTag("Pickup")){
+		if(other.gameObject.CompareTag("Pickup"))
+		{
 			other.gameObject.SetActive(false);
+			counter++;
+			UpdatePickup ();
+		}
+	}
 
+	void UpdatePickup(){
+		if (counter < 3) {
+			countText.text = "Score " + counter;
+		} else {
+			countText.text = "ZEREI!";
+			MenuLevel.gameObject.SetActive(true);
 		}
 	}
 	
@@ -40,4 +64,15 @@ public class Player : MonoBehaviour {
 	void LateUpdate(){
 
 	}
+
+	public void reloadGame(){
+		Application.LoadLevel ("level01");
+	}
+
+	public void nextGame(){
+		Application.LoadLevel ("level02");
+	}
+
+
+
 }
